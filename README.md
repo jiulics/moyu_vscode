@@ -1,5 +1,7 @@
 # Moyu
 
+摸鱼插件：一个用于在 VS Code 内阅读本地小说、播放本地音乐和进行短休息计时的轻量工具箱。
+
 Moyu is a lightweight VS Code extension for short breaks inside the editor. It can read local novels, play local music, and start short break timers.
 
 ## Features
