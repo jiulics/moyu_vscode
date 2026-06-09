@@ -8,8 +8,12 @@ Moyu is a lightweight VS Code extension for short breaks inside the editor. It c
 
 - Add local `.txt` and `.md` novels.
 - Read with chapter navigation, progress persistence, bookmarks, and reader themes.
+- Read in the full reader or the compact side bar mini reader.
+- Switch between scroll reading and app-style page turning.
 - Add local `.mp3`, `.wav`, `.ogg`, `.m4a`, and `.flac` files.
 - Play music in a VS Code webview with volume, progress, and play mode controls.
+- Search official external services: QQ Music web search, Open Library API, and MusicBrainz API.
+- Import local Fanqie export files (`.txt`, `.md`, `.json`) without bundling unofficial download logic. JSON imports support chapter arrays and common `{ chapterTitle: content }` maps produced by external tools.
 - Start 5, 10, or 15 minute break timers.
 - Keep all data local in VS Code extension storage.
 
@@ -21,6 +25,8 @@ Moyu is a lightweight VS Code extension for short breaks inside the editor. It c
 - `Moyu: Add Music Files`
 - `Moyu: Open Music Player`
 - `Moyu: Clear Playlist`
+- `Moyu: Open External Service`
+- `Moyu: Import Fanqie Export`
 - `Moyu: Start Break Timer`
 - `Moyu: Stop Break Timer`
 

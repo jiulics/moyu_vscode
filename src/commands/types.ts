@@ -9,6 +9,7 @@ import type { ReadingProgressStore } from '../services/novel/readingProgressStor
 import type { BreakTimerProvider } from '../views/breakTimerView';
 import type { NovelLibraryProvider } from '../views/novelLibraryView';
 import type { PlaylistProvider } from '../views/playlistView';
+import type { MiniReaderViewProvider } from '../webview/reader/miniReaderViewProvider';
 
 export interface MoyuCommandDependencies {
   context: vscode.ExtensionContext;
@@ -18,6 +19,7 @@ export interface MoyuCommandDependencies {
   breakTimer: BreakTimer;
   breakStatsStore: BreakStatsStore;
   novelLibraryProvider: NovelLibraryProvider;
+  miniReaderProvider: MiniReaderViewProvider;
   playlistProvider: PlaylistProvider;
   breakTimerProvider: BreakTimerProvider;
   musicStatusBar: MusicStatusBar;

@@ -29,9 +29,12 @@
     "onCommand:moyu.addMusicFiles",
     "onCommand:moyu.openMusicPlayer",
     "onCommand:moyu.clearPlaylist",
+    "onCommand:moyu.openExternalService",
+    "onCommand:moyu.importFanqieExport",
     "onCommand:moyu.startBreakTimer",
     "onCommand:moyu.stopBreakTimer",
     "onView:moyuNovelLibrary",
+    "onView:moyuMiniReader",
     "onView:moyuPlaylist",
     "onView:moyuBreakTimer"
   ],
@@ -72,6 +75,18 @@
         "title": "Moyu: Clear Playlist",
         "category": "Moyu",
         "icon": "$(clear-all)"
+      },
+      {
+        "command": "moyu.openExternalService",
+        "title": "Moyu: Open External Service",
+        "category": "Moyu",
+        "icon": "$(globe)"
+      },
+      {
+        "command": "moyu.importFanqieExport",
+        "title": "Moyu: Import Fanqie Export",
+        "category": "Moyu",
+        "icon": "$(cloud-download)"
       },
       {
         "command": "moyu.startBreakTimer",
@@ -148,6 +163,11 @@
           "name": "小说库"
         },
         {
+          "id": "moyuMiniReader",
+          "name": "迷你阅读器",
+          "type": "webview"
+        },
+        {
           "id": "moyuPlaylist",
           "name": "播放列表"
         },
@@ -162,6 +182,26 @@
         {
           "command": "moyu.addNovel",
           "when": "view == moyuNovelLibrary",
+          "group": "navigation"
+        },
+        {
+          "command": "moyu.importFanqieExport",
+          "when": "view == moyuNovelLibrary",
+          "group": "navigation"
+        },
+        {
+          "command": "moyu.openExternalService",
+          "when": "view == moyuNovelLibrary || view == moyuPlaylist",
+          "group": "navigation"
+        },
+        {
+          "command": "moyu.openReader",
+          "when": "view == moyuMiniReader",
+          "group": "navigation"
+        },
+        {
+          "command": "moyu.addNovel",
+          "when": "view == moyuMiniReader",
           "group": "navigation"
         },
         {

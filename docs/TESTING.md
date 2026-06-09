@@ -21,6 +21,9 @@ Covered areas:
 - Playlist ordering, duplicate updates, clearing, and extension validation.
 - Break timer start, replacement, stop, and fake timer behavior.
 - Webview message validation through `zod`.
+- Official external service URL building and API response normalization.
+- Fanqie JSON export parsing into readable local text.
+- App-style page turn progress calculations.
 
 ## Integration Tests
 
@@ -34,6 +37,7 @@ Integration tests verify:
 - All core commands are registered.
 - Default configuration values are readable.
 - File-picker commands can take a cancel-safe test path without throwing.
+- External import commands can take a cancel-safe test path without throwing.
 
 ## Test Fixtures
 

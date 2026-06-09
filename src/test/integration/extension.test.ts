@@ -16,6 +16,8 @@ suite('Moyu extension', () => {
       'moyu.addMusicFiles',
       'moyu.openMusicPlayer',
       'moyu.clearPlaylist',
+      'moyu.openExternalService',
+      'moyu.importFanqieExport',
       'moyu.startBreakTimer',
       'moyu.stopBreakTimer'
     ]) {
@@ -38,6 +40,9 @@ suite('Moyu extension', () => {
     );
     await assert.doesNotReject(
       Promise.resolve(vscode.commands.executeCommand('moyu.addMusicFiles', { skipDialog: true }))
+    );
+    await assert.doesNotReject(
+      Promise.resolve(vscode.commands.executeCommand('moyu.importFanqieExport', { skipDialog: true }))
     );
   });
 });

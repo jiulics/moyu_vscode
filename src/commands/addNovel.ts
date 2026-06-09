@@ -51,6 +51,7 @@ export function registerAddNovelCommand(dependencies: MoyuCommandDependencies): 
     }
 
     dependencies.novelLibraryProvider.refresh();
+    dependencies.miniReaderProvider.refresh();
     const firstUri = addedUris[0];
     if (firstUri) {
       await ReaderPanel.open(

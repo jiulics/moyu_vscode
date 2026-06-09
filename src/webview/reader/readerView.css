@@ -44,7 +44,7 @@ body {
 
 .toolbar {
   display: grid;
-  grid-template-columns: minmax(160px, 1fr) minmax(180px, 280px) repeat(3, auto);
+  grid-template-columns: minmax(160px, 1fr) minmax(180px, 280px) repeat(4, auto);
   gap: 8px;
   align-items: center;
   padding: 10px;
@@ -84,6 +84,62 @@ button {
   line-height: var(--reader-line-height);
 }
 
+.page-shell {
+  position: relative;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.page-content {
+  height: 100%;
+  overflow: hidden;
+  padding: 28px clamp(22px, 6vw, 82px);
+}
+
+.page-zone {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 42%;
+  min-width: 0;
+  min-height: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: transparent;
+  font-size: 28px;
+}
+
+.page-zone:hover,
+.page-zone:focus-visible {
+  color: color-mix(in srgb, var(--reader-fg) 60%, transparent);
+}
+
+.page-zone-left {
+  left: 0;
+  text-align: left;
+  padding-left: 10px;
+}
+
+.page-zone-right {
+  right: 0;
+  text-align: right;
+  padding-right: 10px;
+}
+
+.page-indicator {
+  position: absolute;
+  right: 10px;
+  bottom: 8px;
+  min-width: 48px;
+  padding: 2px 6px;
+  border: 1px solid var(--reader-border);
+  border-radius: 6px;
+  background: var(--reader-panel);
+  font-size: 12px;
+  text-align: center;
+}
+
 @media (max-width: 700px) {
   .toolbar {
     grid-template-columns: 1fr 1fr;
@@ -92,5 +148,13 @@ button {
   .toolbar h1,
   .toolbar select {
     grid-column: 1 / -1;
+  }
+
+  button {
+    min-width: 0;
+  }
+
+  .content {
+    padding: 16px 18px;
   }
 }
