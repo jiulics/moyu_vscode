@@ -22,6 +22,7 @@ Covered areas:
 - Break timer start, replacement, stop, and fake timer behavior.
 - Webview message validation through `zod`.
 - Official external service URL building and API response normalization.
+- Local Fanqie downloader API URL building and response normalization.
 - Fanqie JSON export parsing into readable local text.
 - App-style page turn progress calculations.
 
@@ -36,6 +37,7 @@ Integration tests verify:
 - The extension is discoverable and activates.
 - All core commands are registered.
 - Default configuration values are readable.
+- External service default configuration values are readable.
 - File-picker commands can take a cancel-safe test path without throwing.
 - External import commands can take a cancel-safe test path without throwing.
 

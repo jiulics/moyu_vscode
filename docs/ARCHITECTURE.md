@@ -16,7 +16,7 @@ Moyu is split into four small layers.
 
 - `novel/` handles encoding, chapter parsing, library entries, and reading progress.
 - `music/` handles supported audio formats, playlist persistence, and status bar state.
-- `external/` handles official service URLs, public API result normalization, and local Fanqie export parsing.
+- `external/` handles official service URLs, public API result normalization, local Fanqie downloader API adaptation, and local Fanqie export parsing.
 - `break/` handles the timer and daily local stats.
 - `storage/` adapts VS Code `Memento` to a small JSON store interface.
 
@@ -34,12 +34,12 @@ Security rules:
 
 ## External Services
 
-Moyu only integrates services through official, user-facing surfaces or public APIs:
+Moyu integrates services through official/public surfaces or user-run local tools:
 
 - QQ Music opens the official web search page.
 - Open Library uses the official `search.json` API and opens selected official pages.
 - MusicBrainz uses the official recording search API and opens selected official pages.
-- Fanqie Novel has no public official API in this implementation. Moyu imports local export files, including JSON files produced by user-controlled tools, and converts common chapter JSON shapes into local text. Supported JSON shapes include chapter arrays and `{ chapterTitle: content }` maps such as those written by external Fanqie downloader tools.
+- Fanqie Novel has no public official API in this implementation. Moyu can call a user-run local `fanqienovel-downloader` Web service at `moyu.external.fanqieDownloaderBaseUrl` for `/api/search` and `/api/download/{id}`, then imports local export files produced by that tool. Supported JSON shapes include chapter arrays and `{ chapterTitle: content }` maps.
 
 ## Data Storage
 

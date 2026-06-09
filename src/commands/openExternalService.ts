@@ -1,5 +1,11 @@
 import * as vscode from 'vscode';
 
+import { getExternalSettings } from '../config/settings';
+import {
+  buildFanqieDownloaderDownloadUri,
+  buildFanqieDownloaderSearchUri,
+  normalizeFanqieDownloaderResults
+} from '../services/external/fanqieDownloader';
 import {
   buildOfficialServiceSearchUri,
   normalizeMusicBrainzRecordings,
@@ -37,7 +43,7 @@ const servicePicks: ExternalServicePick[] = [
   },
   {
     label: '番茄小说',
-    description: '没有公开官方 API；打开导入说明',
+    description: '连接本地下载器或导入导出文件',
     serviceId: 'fanqieNovel',
     mode: 'open'
   }
@@ -48,7 +54,7 @@ export function registerOpenExternalServiceCommand(
 ): vscode.Disposable {
   return registerSafeCommand('moyu.openExternalService', async () => {
     const pick = await vscode.window.showQuickPick(servicePicks, {
-      title: '选择外部官方服务'
+      title: '选择外部服务'
     });
 
     if (!pick) {
@@ -56,7 +62,7 @@ export function registerOpenExternalServiceCommand(
     }
 
     if (pick.serviceId === 'fanqieNovel') {
-      await vscode.commands.executeCommand('moyu.importFanqieExport');
+      await runFanqieNovelFlow();
       return;
     }
 
@@ -116,4 +122,84 @@ async function runOfficialApiSearch(serviceId: OfficialServiceId, query: string)
   if (result) {
     await vscode.env.openExternal(vscode.Uri.parse(result.url));
   }
+}
+
+async function runFanqieNovelFlow(): Promise<void> {
+  const action = await vscode.window.showQuickPick(
+    [
+      {
+        label: '搜索本地下载器',
+        description: '调用本机 fanqienovel-downloader Web API',
+        action: 'search'
+      },
+      {
+        label: '导入导出文件',
+        description: '导入 .txt、.md 或 .json 导出文件',
+        action: 'import'
+      }
+    ],
+    {
+      title: '番茄小说'
+    }
+  );
+
+  if (!action) {
+    return;
+  }
+
+  if (action.action === 'import') {
+    await vscode.commands.executeCommand('moyu.importFanqieExport');
+    return;
+  }
+
+  const query = await vscode.window.showInputBox({
+    title: '搜索本地 Fanqie downloader',
+    prompt: '输入小说关键词。请先启动 fanqienovel-downloader Web 服务。',
+    ignoreFocusOut: true
+  });
+
+  if (!query?.trim()) {
+    return;
+  }
+
+  await runFanqieDownloaderSearch(query);
+}
+
+async function runFanqieDownloaderSearch(query: string): Promise<void> {
+  const baseUrl = getExternalSettings().fanqieDownloaderBaseUrl;
+  const response = await fetch(buildFanqieDownloaderSearchUri(baseUrl, query).toString());
+
+  if (!response.ok) {
+    throw new Error(`本地 Fanqie downloader 搜索失败：${response.status} ${response.statusText}`);
+  }
+
+  const results = normalizeFanqieDownloaderResults((await response.json()) as unknown);
+  if (results.length === 0) {
+    void vscode.window.showInformationMessage('本地 Fanqie downloader 没有返回可用结果。');
+    return;
+  }
+
+  const result = await vscode.window.showQuickPick(results, {
+    title: '选择小说并加入下载队列'
+  });
+
+  if (!result) {
+    return;
+  }
+
+  const downloadResponse = await fetch(
+    buildFanqieDownloaderDownloadUri(baseUrl, result.novelId).toString()
+  );
+  const data = (await downloadResponse.json().catch(() => undefined)) as
+    | { error?: unknown; status?: unknown }
+    | undefined;
+
+  if (!downloadResponse.ok || data?.error) {
+    const detail = typeof data?.error === 'string' ? data.error : downloadResponse.statusText;
+    throw new Error(`本地 Fanqie downloader 下载失败：${detail}`);
+  }
+
+  void vscode.window.showInformationMessage(
+    `已发送到本地 Fanqie downloader：${result.label}。下载完成后可用 Moyu 导入导出文件。`
+  );
 }

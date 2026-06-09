@@ -10,6 +10,10 @@ export interface MusicSettings {
   volume: number;
 }
 
+export interface ExternalSettings {
+  fanqieDownloaderBaseUrl: string;
+}
+
 export function getReaderSettings(): ReaderSettings {
   const config = vscode.workspace.getConfiguration('moyu');
   return {
@@ -23,6 +27,16 @@ export function getMusicSettings(): MusicSettings {
   const config = vscode.workspace.getConfiguration('moyu');
   return {
     volume: config.get<number>('music.volume', 0.7)
+  };
+}
+
+export function getExternalSettings(): ExternalSettings {
+  const config = vscode.workspace.getConfiguration('moyu');
+  return {
+    fanqieDownloaderBaseUrl: config.get<string>(
+      'external.fanqieDownloaderBaseUrl',
+      'http://127.0.0.1:5000'
+    )
   };
 }
 

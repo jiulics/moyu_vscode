@@ -32,6 +32,7 @@ suite('Moyu extension', () => {
     assert.equal(config.get('reader.theme'), 'dark');
     assert.equal(config.get('music.volume'), 0.7);
     assert.equal(config.get('break.defaultMinutes'), 5);
+    assert.equal(config.get('external.fanqieDownloaderBaseUrl'), 'http://127.0.0.1:5000');
   });
 
   test('handles cancel-safe commands without throwing', async () => {
