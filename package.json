@@ -1,0 +1,213 @@
+{
+  "name": "moyu-vscode",
+  "displayName": "Moyu",
+  "description": "A lightweight VS Code break toolbox for reading local novels, playing local music, and timing short rests.",
+  "version": "0.0.1",
+  "publisher": "jiulics",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jiulics/moyu_vscode.git"
+  },
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "moyu",
+    "reader",
+    "music",
+    "break"
+  ],
+  "main": "./dist/extension.js",
+  "activationEvents": [
+    "onCommand:moyu.addNovel",
+    "onCommand:moyu.openReader",
+    "onCommand:moyu.showNovelLibrary",
+    "onCommand:moyu.addMusicFiles",
+    "onCommand:moyu.openMusicPlayer",
+    "onCommand:moyu.clearPlaylist",
+    "onCommand:moyu.startBreakTimer",
+    "onCommand:moyu.stopBreakTimer",
+    "onView:moyuNovelLibrary",
+    "onView:moyuPlaylist",
+    "onView:moyuBreakTimer"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "moyu.addNovel",
+        "title": "Moyu: Add Novel",
+        "category": "Moyu",
+        "icon": "$(book)"
+      },
+      {
+        "command": "moyu.openReader",
+        "title": "Moyu: Open Reader",
+        "category": "Moyu",
+        "icon": "$(book)"
+      },
+      {
+        "command": "moyu.showNovelLibrary",
+        "title": "Moyu: Show Novel Library",
+        "category": "Moyu",
+        "icon": "$(library)"
+      },
+      {
+        "command": "moyu.addMusicFiles",
+        "title": "Moyu: Add Music Files",
+        "category": "Moyu",
+        "icon": "$(music)"
+      },
+      {
+        "command": "moyu.openMusicPlayer",
+        "title": "Moyu: Open Music Player",
+        "category": "Moyu",
+        "icon": "$(play)"
+      },
+      {
+        "command": "moyu.clearPlaylist",
+        "title": "Moyu: Clear Playlist",
+        "category": "Moyu",
+        "icon": "$(clear-all)"
+      },
+      {
+        "command": "moyu.startBreakTimer",
+        "title": "Moyu: Start Break Timer",
+        "category": "Moyu",
+        "icon": "$(watch)"
+      },
+      {
+        "command": "moyu.stopBreakTimer",
+        "title": "Moyu: Stop Break Timer",
+        "category": "Moyu",
+        "icon": "$(debug-stop)"
+      }
+    ],
+    "configuration": {
+      "title": "Moyu",
+      "properties": {
+        "moyu.reader.fontSize": {
+          "type": "number",
+          "default": 18,
+          "minimum": 12,
+          "maximum": 32,
+          "description": "Default reader font size in pixels."
+        },
+        "moyu.reader.lineHeight": {
+          "type": "number",
+          "default": 1.8,
+          "minimum": 1.2,
+          "maximum": 2.4,
+          "description": "Default reader line height."
+        },
+        "moyu.reader.theme": {
+          "type": "string",
+          "enum": [
+            "dark",
+            "light",
+            "green"
+          ],
+          "default": "dark",
+          "description": "Default reader theme."
+        },
+        "moyu.music.volume": {
+          "type": "number",
+          "default": 0.7,
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Default music player volume."
+        },
+        "moyu.break.defaultMinutes": {
+          "type": "number",
+          "default": 5,
+          "enum": [
+            5,
+            10,
+            15
+          ],
+          "description": "Default break timer duration in minutes."
+        }
+      }
+    },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "moyu",
+          "title": "Moyu",
+          "icon": "media/icons/moyu.svg"
+        }
+      ]
+    },
+    "views": {
+      "moyu": [
+        {
+          "id": "moyuNovelLibrary",
+          "name": "小说库"
+        },
+        {
+          "id": "moyuPlaylist",
+          "name": "播放列表"
+        },
+        {
+          "id": "moyuBreakTimer",
+          "name": "休息计时"
+        }
+      ]
+    },
+    "menus": {
+      "view/title": [
+        {
+          "command": "moyu.addNovel",
+          "when": "view == moyuNovelLibrary",
+          "group": "navigation"
+        },
+        {
+          "command": "moyu.addMusicFiles",
+          "when": "view == moyuPlaylist",
+          "group": "navigation"
+        },
+        {
+          "command": "moyu.startBreakTimer",
+          "when": "view == moyuBreakTimer",
+          "group": "navigation"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "clean": "node scripts/clean.mjs",
+    "compile": "tsc -p tsconfig.json --noEmit && node esbuild.mjs",
+    "compile-tests": "tsc -p tsconfig.test.json",
+    "watch": "node esbuild.mjs --watch",
+    "lint": "eslint \"src/**/*.ts\"",
+    "test:unit": "vitest run",
+    "test:integration": "npm run compile && npm run compile-tests && vscode-test --label integration --list-configuration && node scripts/run-integration.mjs",
+    "package": "npm run compile && vsce package --allow-missing-repository --no-dependencies"
+  },
+  "dependencies": {
+    "chardet": "^2.1.0",
+    "iconv-lite": "^0.6.3",
+    "zod": "^3.23.8"
+  },
+  "overrides": {
+    "strip-literal": "3.0.0"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^20.14.12",
+    "@types/vscode": "^1.90.0",
+    "@typescript-eslint/eslint-plugin": "^8.34.0",
+    "@typescript-eslint/parser": "^8.34.0",
+    "@vscode/test-cli": "^0.0.11",
+    "@vscode/test-electron": "^2.5.2",
+    "@vscode/vsce": "^3.4.2",
+    "esbuild": "^0.25.5",
+    "eslint": "^8.57.1",
+    "mocha": "^10.7.3",
+    "typescript": "^5.8.3",
+    "vitest": "^3.2.2"
+  }
+}
